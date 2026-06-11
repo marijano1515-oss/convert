@@ -14,6 +14,7 @@ class CurrencyConverter
     public function getRates(): array
     {
         return Cache::remember('nbg_rates', now()->endOfDay(), function () {
+
             $today = now()->format('Y-m-d');
 
             $response = Http::get($this->apiUrl, ['date' => $today]);

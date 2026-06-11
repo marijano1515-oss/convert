@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'nbg' => [
+        'url' => env('NBG_API_URL', 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=2026-06-08'),
+    ],
 
 ];

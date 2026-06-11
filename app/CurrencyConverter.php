@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\Http;
 
 class CurrencyConverter
 {
-    protected string $apiUrl = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/en/json/';
+    protected string $apiUrl;
+    public  function __construct()
+    {
+       $this->apiUrl = config('services.nbg.url');
 
+    }
     public function getRates(): array
     {
         return Cache::remember('nbg_rates', now()->endOfDay(), function () {

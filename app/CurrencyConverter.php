@@ -13,25 +13,23 @@ class CurrencyConverter
 
     public function getRates(): array
     {
-        $today = now() ->format('Y-m-d');
+        return Cache::remember('nbg_rates', now()->endOfDay(), function () {
+            $today = now()->format('Y-m-d');
 
-        $response = Http::get($this->apiUrl, ['date' => $today]);
+            $response = Http::get($this->apiUrl, ['date' => $today]);
 
-        if($response->successful() && isset($response->json()[0]['currencies'])) {
-            $rawCurrencies = $response->json()[0]['currencies'];
-            $result = [];
+            if ($response->successful() && isset($response->json()[0]['currencies'])) {
+                $rawCurrencies = $response->json()[0]['currencies'];
+                $result = [];
 
-            foreach ($rawCurrencies as $currency) {
-                $result[$currency["code"]] = $currency["rate"];
-//                cache::remember('currencies', 60, function () {
-//                    return $this->result;
-//                })
+                foreach ($rawCurrencies as $currency) {
+                    $result[$currency["code"]] = $currency["rate"];
+                }
+                return $result;
             }
-             return $result;
+            return [];
 
-        }
-        return [];
+        });
     }
+}
 
-
-    }
